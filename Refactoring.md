@@ -10,3 +10,9 @@ You will be graded on the exhaustiveness and quality of your unit tests, the dep
 
 ## Your Explanation Here
 - Consider only before "feat: remove unnecessary creation of data param" commit, as everything after that was made after the 2 hours limit;
+
+1. Move "magic" strings to constants, it tells the dev what those strings means and make it easy to change in all places they are used at same time;
+2. Set TRIVIAL_PARTITION_KEY as default value for candidate var, with this we don't need to check if candidate has value to set it;
+3. Move create hash logic to a function, with this we eliminate duplicated code, making it more readable and maintainable;
+4. As the event as JSON (const data) is only used once, we don't need to set it's value to a variable;
+5. Move all the logic inside de "if (event)" because it's unnecessary in the default path;
