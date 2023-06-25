@@ -22,12 +22,13 @@ exports.deterministicPartitionKey = (event) => {
     } else {
       candidate = createHash(JSON.stringify(event));
     }
-  }
 
-  candidate = getDataAsString(candidate);
-
-  if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
-    candidate = createHash(candidate);
+    candidate = getDataAsString(candidate);
+  
+    if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
+      candidate = createHash(candidate);
+    }
   }
+  
   return candidate;
 };
