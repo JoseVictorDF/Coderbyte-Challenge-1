@@ -5,4 +5,9 @@ describe("deterministicPartitionKey", () => {
     const trivialKey = deterministicPartitionKey();
     expect(trivialKey).toBe("0");
   });
+  it("Returns the event partition key when valid", () => {
+    const event = { partitionKey: 'valid-partition-key' };
+    const trivialKey = deterministicPartitionKey(event);
+    expect(trivialKey).toBe(event.partitionKey);
+  });
 });
