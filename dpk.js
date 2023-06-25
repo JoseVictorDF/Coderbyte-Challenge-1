@@ -9,6 +9,10 @@ const createHash = (data) => {
   return crypto.createHash(HASH_ALGORITHM).update(data).digest(HASH_ENCODING);
 };
 
+const getDataAsString = (data) => {
+  return (typeof data !== "string") ? JSON.stringify(data) : data;
+}
+
 exports.deterministicPartitionKey = (event) => {
   let candidate = TRIVIAL_PARTITION_KEY;
 
@@ -20,9 +24,7 @@ exports.deterministicPartitionKey = (event) => {
     }
   }
 
-  if (typeof candidate !== "string") {
-    candidate = JSON.stringify(candidate);
-  }
+  candidate = getDataAsString(candidate);
 
   if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
     candidate = createHash(candidate);
