@@ -5,6 +5,10 @@ const HASH_ENCODING = 'hex';
 const TRIVIAL_PARTITION_KEY = "0";
 const MAX_PARTITION_KEY_LENGTH = 256;
 
+const createHash = (data) => {
+  return crypto.createHash(HASH_ALGORITHM).update(data).digest(HASH_ENCODING);
+};
+
 exports.deterministicPartitionKey = (event) => {
   let candidate = TRIVIAL_PARTITION_KEY;
 
@@ -13,7 +17,7 @@ exports.deterministicPartitionKey = (event) => {
       candidate = event.partitionKey;
     } else {
       const data = JSON.stringify(event);
-      candidate = crypto.createHash(HASH_ALGORITHM).update(data).digest(HASH_ENCODING);
+      candidate = createHash(data);
     }
   }
 
@@ -22,7 +26,7 @@ exports.deterministicPartitionKey = (event) => {
   }
 
   if (candidate.length > MAX_PARTITION_KEY_LENGTH) {
-    candidate = crypto.createHash(HASH_ALGORITHM).update(candidate).digest(HASH_ENCODING);
+    candidate = createHash(candidate);
   }
   return candidate;
 };
